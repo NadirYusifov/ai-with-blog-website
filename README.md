@@ -18,5 +18,5 @@ AI-da model olaraq **OpenCode-da** `Big Pickle OpenCode Zen` və **Ollama** tər
 - TypeScript
 - Pagefind (pagefind)
 
-🌐 Live
+🌐 Live:
 [Demo](https://ai-with-blog-website.netlify.app/)
