@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import Search from '../components/Search.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = 'My awesome blog', image = '/og-image.jpg' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Your Name" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+  </head>
+  <body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 min-h-screen">
+    <header class="backdrop-blur-md bg-white/10 border-b border-white/20 sticky top-0 z-50 animate-fade-in">
+      <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent hover:from-cyan-300 hover:to-purple-300 transition-all animate-float">
+          My Blog
+        </a>
+        <div class="flex items-center gap-6">
+          <Search />
+          <a href="/" class="text-gray-300 hover:text-cyan-400 transition-colors font-medium animate-slide-in-right delay-100">Home</a>
+          <a href="/blog" class="text-gray-300 hover:text-cyan-400 transition-colors font-medium animate-slide-in-right delay-200">Blog</a>
+          <a href="/about" class="text-gray-300 hover:text-cyan-400 transition-colors font-medium animate-slide-in-right delay-300">About</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+      <slot />
+    </main>
+
+    <footer class="border-t border-white/10 mt-24">
+      <div class="max-w-6xl mx-auto px-6 py-8 text-center text-gray-400 text-sm">
+        &copy; {new Date().getFullYear()} My Blog. Crafted with ✨
+      </div>
+    </footer>
+  </body>
+</html>

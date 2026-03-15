@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogPost from '../../../layouts/BlogPost.astro';
+
+// Type-safe static paths generation
+export async function getStaticPaths() {
+  try {
+    const posts = await getCollection('blog');
+    
+    return posts.map((post) => ({
+      params: { slug: post.id },
+      props: post,
+    }));
+  } catch (error) {
+    console.error('[Blog] Failed to load posts:', error instanceof Error ? error.message : 'Unknown error');
+    return [];
+  }
+}
+
+// Props extraction
+const post = Astro.props;
+
+// Content rendering with error handling
+let Content;
+try {
+  const rendered = await render(post);
+  Content = rendered.Content;
+} catch (error) {
+  console.error('[Blog] Failed to render post:', post.id, error instanceof Error ? error.message : 'Unknown error');
+  throw error;
+}
+
+// Frontmatter access
+const frontmatter = post.data;
+---
+
+<BlogPost frontmatter={frontmatter}>
+  <Content />
+</BlogPost>

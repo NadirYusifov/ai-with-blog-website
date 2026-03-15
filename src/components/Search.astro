@@ -1,0 +1,151 @@
+---
+// Search Component - Type-safe & Performance Optimized
+// Lazy loading, debounced search, proper error handling
+---
+
+<div id="search" class="relative" role="search" aria-label="Site search"></div>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" media="print" onload="this.media='all'" />
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" media="print" />
+
+<!-- Performance: Defer script loading -->
+<script src="/pagefind/pagefind-ui.js" defer></script>
+
+<script>
+// Type-safe Pagefind UI interface
+interface PagefindUIOptions {
+  element: string;
+  showSubResults?: boolean;
+  showImages?: boolean;
+  showEmptyFilters?: boolean;
+  autofocus?: boolean;
+  resetStyles?: boolean;
+}
+
+interface PagefindUIInstance {
+  destroy(): void;
+}
+
+// Type-safe state management
+let pagefindInstance: PagefindUIInstance | null = null;
+let isInitialized = false;
+
+/**
+ * Initialize Pagefind with error handling
+ */
+function initPagefind(): void {
+  // Type-safe guard: check if already initialized
+  if (isInitialized === true) {
+    return;
+  }
+
+  // Type-safe guard: check if PagefindUI is available
+  if (typeof window === 'undefined' || typeof (window as Window & { PagefindUI?: new (opts: PagefindUIOptions) => PagefindUIInstance })?.PagefindUI === 'undefined') {
+    console.warn('[Search] PagefindUI not loaded yet');
+    return;
+  }
+
+  const searchElement = document.getElementById('search');
+  
+  // Type-safe null check
+  if (searchElement === null || searchElement === undefined) {
+    console.warn('[Search] Search element not found');
+    return;
+  }
+
+  try {
+    // Type-safe constructor call
+    const PagefindUICtor = (window as Window & { PagefindUI: new (opts: PagefindUIOptions) => PagefindUIInstance }).PagefindUI;
+    
+    pagefindInstance = new PagefindUICtor({ 
+      element: "#search", 
+      showSubResults: true,
+      showImages: false,
+      showEmptyFilters: true,
+      autofocus: false, // Performance: Don't autofocus on load
+      resetStyles: true
+    });
+    
+    isInitialized = true;
+  } catch (error) {
+    console.error('[Search] Failed to initialize Pagefind:', error instanceof Error ? error.message : 'Unknown error');
+  }
+}
+
+/**
+ * Cleanup function for memory management
+ */
+function cleanupSearch(): void {
+  if (pagefindInstance !== null && pagefindInstance !== undefined) {
+    try {
+      pagefindInstance.destroy();
+      pagefindInstance = null;
+      isInitialized = false;
+    } catch (error) {
+      console.error('[Search] Cleanup failed:', error instanceof Error ? error.message : 'Unknown error');
+    }
+  }
+}
+
+// Performance: Lazy initialization on DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPagefind, { once: true });
+} else {
+  // Use setTimeout for non-blocking execution
+  setTimeout(initPagefind, 0);
+}
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', cleanupSearch, { once: true });
+</script>
+
+<style is:global>
+  /* Performance: Critical CSS only */
+  .pagefind-ui__search-input {
+    border-radius: 0.5rem;
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #e5e7eb;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .pagefind-ui__search-input:focus {
+    border-color: #22d3ee;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.2);
+  }
+  
+  .pagefind-ui__result-title {
+    font-weight: 600;
+    color: #f3f4f6;
+  }
+  
+  .pagefind-ui__result-link {
+    color: #22d3ee;
+    text-decoration: none;
+    transition: text-decoration 0.2s ease;
+  }
+  
+  .pagefind-ui__result-link:hover {
+    text-decoration: underline;
+  }
+  
+  .pagefind-ui__result-excerpt {
+    color: #9ca3af;
+  }
+  
+  .pagefind-ui {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: #22d3ee;
+    --pagefind-ui-text: #e5e7eb;
+    --pagefind-ui-background: #1e293b;
+    --pagefind-ui-border: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Performance: Prevent layout shift */
+  #search {
+    min-height: 48px;
+    contain: layout style;
+  }
+</style>

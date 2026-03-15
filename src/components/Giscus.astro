@@ -1,0 +1,37 @@
+---
+interface Props {
+  repo?: string;
+  repoId?: string;
+  category?: string;
+  categoryId?: string;
+}
+
+const { 
+  repo = "your-username/your-repo", 
+  repoId = "R_kgDxxxxxxx", 
+  category = "Comments", 
+  categoryId = "DIC_kwDxxxxxxx" 
+} = Astro.props;
+---
+
+<div class="mt-12 pt-8 border-t border-gray-200">
+  <h2 class="text-2xl font-bold mb-6">Comments</h2>
+  <script src="https://giscus.app/client.js"
+        data-repo={repo}
+        data-repo-id={repoId}
+        data-category={category}
+        data-category-id={categoryId}
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+  </script>
+  <p class="text-sm text-gray-500 mt-4">
+    Comments are powered by GitHub Discussions. To enable comments, you need to set up a GitHub repository with discussions enabled and configure the Giscus component.
+  </p>
+</div>

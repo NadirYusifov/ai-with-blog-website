@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About - My Blog" description="About me">
+  <div class="max-w-3xl mx-auto animate-fade-in">
+    <h1 class="text-5xl font-extrabold mb-8 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent text-center animate-gradient">
+      About Me
+    </h1>
+    <div class="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8 animate-fade-in delay-200">
+      <div class="prose prose-lg prose-invert">
+        <p class="text-gray-300 leading-relaxed animate-slide-in-left">
+          Hi! I'm a web developer passionate about building modern, performant websites.
+        </p>
+        <p class="text-gray-300 leading-relaxed animate-slide-in-left delay-100">
+          I specialize in:
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-3 text-gray-300 animate-slide-in-left delay-200">
+            <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse-slow"></span>
+            JavaScript & TypeScript
+          </li>
+          <li class="flex items-center gap-3 text-gray-300 animate-slide-in-left delay-300">
+            <span class="w-2 h-2 bg-purple-400 rounded-full animate-pulse-slow"></span>
+            React & Next.js
+          </li>
+          <li class="flex items-center gap-3 text-gray-300 animate-slide-in-left delay-400">
+            <span class="w-2 h-2 bg-pink-400 rounded-full animate-pulse-slow"></span>
+            Astro
+          </li>
+          <li class="flex items-center gap-3 text-gray-300 animate-slide-in-left delay-500">
+            <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse-slow"></span>
+            Tailwind CSS
+          </li>
+        </ul>
+        <p class="text-gray-300 leading-relaxed animate-slide-in-right delay-200">
+          This blog is built with Astro and is a place where I share my thoughts and experiences
+          with the web development community.
+        </p>
+        <p class="text-gray-300 leading-relaxed animate-slide-in-right delay-300">
+          Feel free to explore my posts and don't hesitate to reach out!
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
